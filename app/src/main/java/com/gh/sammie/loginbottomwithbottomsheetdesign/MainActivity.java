@@ -9,38 +9,40 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button LoginButton, RegisterButton;
+    private Button loginButton, registerButton;
     private LinearLayout linearLayout;
+    private BottomSheetBehavior bottomSheetBehavior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LoginButton = findViewById(R.id.login);
-        RegisterButton = findViewById(R.id.register);
+        loginButton = findViewById(R.id.login);
+        registerButton = findViewById(R.id.register);
 
         //get the bottom sheet view
         linearLayout = findViewById(R.id.bottom_sheet);
 
         //init the bottom sheet view
-        final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+        bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
 
-        LoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            }
-        });
+        loginButton.setOnClickListener(this);
+        registerButton.setOnClickListener(this);
 
-        RegisterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new CustomBottomSheetDialogFragment().show(getSupportFragmentManager(), "Dialog");
-            }
-        });
+
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.login:
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                break;
+            case R.id.register:
+                new CustomBottomSheetDialogFragment().show(getSupportFragmentManager(), "Dialog");
+        }
+    }
 }
